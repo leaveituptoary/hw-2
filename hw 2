@@ -1,0 +1,27 @@
+---
+title: "HW 2"
+output:
+  pdf_document: default
+  html_document: default
+date: "2024-02-01"
+---
+```{r}
+load("BRFSS2022_rev.RData")
+#glimpse(brfss22) try this later
+brfss22[1:10,1:6]
+attach(brfss22)
+
+```
+
+xtabs(~ brfss22$ADDEPEV3 + brfss22$SEXVAR)
+prop.table(table(brfss22$ADDEPEV3, brfss22$SEXVAR))
+
+NN <- length(brfss22$ADDEPEV3)
+set.seed(12345)
+restrict_1 <- (runif(NN) < 0.1) # use just 10% 
+summary(restrict_1)
+
+brfss_small <- subset(brfss22, restrict_1)
+ggplot(brfss_small, aes(x = SEXVAR, fill = ADDEPEV3)) + geom_bar()
+brfss_small_m <- subset(brfss_small,brfss_small$SEXVAR == "Male")
+brfss_small_f <- subset(brfss_small,brfss_small$SEXVAR == "Female")
